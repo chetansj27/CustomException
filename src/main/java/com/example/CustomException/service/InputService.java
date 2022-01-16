@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class InputService {
 
     public ResponseEntity<Object> handleInput(InputDto inputDto) {
-        if (inputDto.getName() == null)
-            throw new InputException("Name can't be null");
+        if (inputDto.getName().length() < 5)
+            throw new InputException("Name length can't be less than 5");
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
