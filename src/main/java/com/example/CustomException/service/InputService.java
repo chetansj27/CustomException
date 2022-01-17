@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 public class InputService {
 
     public ResponseEntity<Object> handleInput(InputDto inputDto) {
-        if (inputDto.getName().length() < 5)
-            throw new InputException("Name length can't be less than 5");
+        if (inputDto.getName() == null)
+            throw new InputException("name can't be empty");
+        if (inputDto.getPassword() == null)
+            throw new InputException("password can't be empty");
+        if (inputDto.getPassword().length() < 8)
+            throw new InputException("password length can't be less than 8");
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 }
