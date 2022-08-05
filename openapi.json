@@ -1,0 +1,1557 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Property Information API",
+    "description": "@project.description@",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "Precisely APIs Support",
+      "url": "https://support.precisely.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://springdoc.org"
+    },
+    "version": "@project.version@"
+  },
+  "externalDocs": {
+    "description": "Online Documentation",
+    "url": "https://docs.precisely.com/docs/sftw/precisely-apis/main/en-us/webhelp/apis/index.html"
+  },
+  "servers": [
+    {
+      "url": "https://api.precisely.com"
+    }
+  ],
+  "security": [
+    {
+      "oAuth2Password": [
+        ""
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Property Information Service",
+      "description": "Property Insights. Integrate extensive residential & commercial property information into your applications. The Property Information API returns property parcel boundaries and hundreds of property attributes for millions of US properties with the input of Location Coordinates or Addresses. Useful for Real Estate use cases or those involving risk assessments."
+    }
+  ],
+  "paths": {
+    "/property/v2/attributes/byaddress": {
+      "get": {
+        "tags": [
+          "Property Information Service"
+        ],
+        "summary": "PropertyV2 Attributes By Address.",
+        "description": "GetPropertyAttributesbyAddress Endpoint will take address as an input and will return key property attributes in response. Optionally user will have the option to filter the attributes and will pay for only returned attributes.",
+        "operationId": "getPropertyAttributesByAddress",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "description": "free form address text",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "attributes",
+            "in": "query",
+            "description": "Case-insensitive comma separated values of property attributes. Response will contain only the input attributes.",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInfoResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorInfo"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorInfo"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oAuth2Password": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Property Information Service"
+        ],
+        "summary": "PropertyV2 Attributes By Address Batch.",
+        "description": "GetPropertyAttributesbyAddressBatch Endpoint will take the list of addresses as an input and will return key property attributes for the given addresses in response. Optionally user will have the option to filter the attributes and will pay for only returned attributes.",
+        "operationId": "getPropertyAttributesByAddressBatch",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyInfoAddressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInfoResponses"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyInfoResponses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorInfo"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorInfo"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "oAuth2Password": []
+          }
+        ]
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": [
+          "prometheus-controller"
+        ],
+        "operationId": "metrics",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health-check-controller"
+        ],
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AbsenteeOwner": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Amenities": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BasementType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgClass": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgCondition": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgFeaturesSqft": {
+        "type": "object",
+        "properties": {
+          "featureAreaSqFt": {
+            "type": "string"
+          },
+          "areaIndicator": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "description": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "BuildgImprovArea": {
+        "type": "object",
+        "properties": {
+          "improveArea": {
+            "type": "string"
+          },
+          "areaIndicator": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "description": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "BuildgImproveType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgQuality": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgStyle": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildgView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "BuildingSqftSource": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "CaExemptions": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Construction": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "CoolingType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "EnergyType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ExteriorWalls": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ExtraFeatureSqft": {
+        "type": "object",
+        "properties": {
+          "featureAreaSqFt": {
+            "type": "string"
+          },
+          "areaIndicator": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "description": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "FireplaceType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "FloorType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "FormattedTaxAddress": {
+        "type": "object",
+        "properties": {
+          "mainAddressLine": {
+            "type": "string"
+          },
+          "addressNumber": {
+            "type": "string"
+          },
+          "streetPreDirection": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetType": {
+            "type": "string"
+          },
+          "streetPostDirection": {
+            "type": "string"
+          },
+          "unitType": {
+            "type": "string"
+          },
+          "unitValue": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postCode1": {
+            "type": "string"
+          },
+          "postCode2": {
+            "type": "string"
+          }
+        }
+      },
+      "Foundation": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "FuelType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "GarageType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "HeatingType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "InteriorWall": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "LandUse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "LocCode": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "MatchedAddress": {
+        "type": "object",
+        "properties": {
+          "objectId": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "streetSide": {
+            "type": "string"
+          },
+          "businessName": {
+            "type": "string"
+          },
+          "addressLine1": {
+            "type": "string"
+          },
+          "addressLine2": {
+            "type": "string"
+          },
+          "addressLine3": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "stateProvince": {
+            "type": "string"
+          },
+          "county": {
+            "type": "string"
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "string"
+          },
+          "longitude": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "urbanizationName": {
+            "type": "string"
+          },
+          "formattedAddress": {
+            "type": "string"
+          },
+          "mainAddressLine": {
+            "type": "string"
+          },
+          "addressLastLine": {
+            "type": "string"
+          },
+          "placeName": {
+            "type": "string"
+          },
+          "areaName1": {
+            "type": "string"
+          },
+          "areaName2": {
+            "type": "string"
+          },
+          "areaName3": {
+            "type": "string"
+          },
+          "areaName4": {
+            "type": "string"
+          },
+          "postCode": {
+            "type": "string"
+          },
+          "postCodeExt": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "addressNumber": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "unitType": {
+            "type": "string"
+          },
+          "unitValue": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "address"
+        }
+      },
+      "OtherRooms": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "OwnerVestType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Owners": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        }
+      },
+      "PoolType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "PriorSaleCode": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "PropSiteInfluene": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "PropertyAttributes": {
+        "type": "object",
+        "properties": {
+          "pbKey": {
+            "type": "string"
+          },
+          "propApn": {
+            "type": "string"
+          },
+          "propType": {
+            "type": "string"
+          },
+          "propSqFt": {
+            "type": "string"
+          },
+          "buildgSqFt": {
+            "type": "string"
+          },
+          "buildgSqFtSource": {
+            "$ref": "#/components/schemas/BuildingSqftSource"
+          },
+          "landUse": {
+            "$ref": "#/components/schemas/LandUse"
+          },
+          "construction": {
+            "$ref": "#/components/schemas/Construction"
+          },
+          "roofCoverType": {
+            "$ref": "#/components/schemas/RoofCoverType"
+          },
+          "subdivision": {
+            "type": "string"
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/PropertyGeometry"
+          },
+          "builtYear": {
+            "type": "string"
+          },
+          "bedrooms": {
+            "type": "string"
+          },
+          "baths": {
+            "type": "string"
+          },
+          "partialBaths": {
+            "type": "string"
+          },
+          "bathFixtures": {
+            "type": "string"
+          },
+          "pool": {
+            "type": "string"
+          },
+          "poolType": {
+            "$ref": "#/components/schemas/PoolType"
+          },
+          "fireplace": {
+            "type": "string"
+          },
+          "fireplaceType": {
+            "$ref": "#/components/schemas/FireplaceType"
+          },
+          "mobileHome": {
+            "type": "string"
+          },
+          "heatingType": {
+            "$ref": "#/components/schemas/HeatingType"
+          },
+          "coolingType": {
+            "$ref": "#/components/schemas/CoolingType"
+          },
+          "assessedValue": {
+            "type": "string"
+          },
+          "marketValue": {
+            "type": "string"
+          },
+          "appraisedValue": {
+            "type": "string"
+          },
+          "taxAmount": {
+            "type": "string"
+          },
+          "taxExemptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TaxExemption"
+            }
+          },
+          "caExemptions": {
+            "$ref": "#/components/schemas/CaExemptions"
+          },
+          "salesDate": {
+            "type": "string"
+          },
+          "priorSaleDate": {
+            "type": "string"
+          },
+          "priorSalesPrice": {
+            "type": "string"
+          },
+          "priorSaleDocType": {
+            "type": "string"
+          },
+          "priorSaleCode": {
+            "$ref": "#/components/schemas/PriorSaleCode"
+          },
+          "priorSaleFolioNumber": {
+            "type": "string"
+          },
+          "priorSalePageNumber": {
+            "type": "string"
+          },
+          "priorSaleDocNumber": {
+            "type": "string"
+          },
+          "stories": {
+            "$ref": "#/components/schemas/Stories"
+          },
+          "livingSqFt": {
+            "type": "string"
+          },
+          "roofFrameType": {
+            "$ref": "#/components/schemas/RoofFrameType"
+          },
+          "foundation": {
+            "$ref": "#/components/schemas/Foundation"
+          },
+          "buildgCondition": {
+            "$ref": "#/components/schemas/BuildgCondition"
+          },
+          "buildgCount": {
+            "type": "string"
+          },
+          "buildgUnitNo": {
+            "type": "string"
+          },
+          "buildgFeaturesSqFt": {
+            "type": "array",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/BuildgFeaturesSqft"
+            }
+          },
+          "businessName": {
+            "type": "string"
+          },
+          "taxAddress": {
+            "type": "string"
+          },
+          "formattedTaxAddress": {
+            "$ref": "#/components/schemas/FormattedTaxAddress"
+          },
+          "situsAddress": {
+            "$ref": "#/components/schemas/SitusAddress"
+          },
+          "vacancy": {
+            "$ref": "#/components/schemas/Vacancy"
+          },
+          "owners": {
+            "type": "array",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/Owners"
+            }
+          },
+          "appraisedValueImp": {
+            "type": "string"
+          },
+          "assessedValueImp": {
+            "type": "string"
+          },
+          "buildgType": {
+            "$ref": "#/components/schemas/BuildgType"
+          },
+          "basementType": {
+            "$ref": "#/components/schemas/BasementType"
+          },
+          "effectiveBuiltYear": {
+            "type": "string"
+          },
+          "exteriorWalls": {
+            "$ref": "#/components/schemas/ExteriorWalls"
+          },
+          "garageType": {
+            "$ref": "#/components/schemas/GarageType"
+          },
+          "lastUpdated": {
+            "type": "string"
+          },
+          "marketValueImp": {
+            "type": "string"
+          },
+          "absenteeOwner": {
+            "$ref": "#/components/schemas/AbsenteeOwner"
+          },
+          "parkingSqFt": {
+            "type": "string"
+          },
+          "replacementCost": {
+            "type": "string"
+          },
+          "roofShapeType": {
+            "$ref": "#/components/schemas/RoofShapeType"
+          },
+          "buildgStyle": {
+            "$ref": "#/components/schemas/BuildgStyle"
+          },
+          "basementSqFt": {
+            "type": "string"
+          },
+          "ownerType": {
+            "type": "string"
+          },
+          "ownerVestType": {
+            "$ref": "#/components/schemas/OwnerVestType"
+          },
+          "elevator": {
+            "type": "string"
+          },
+          "propApnSequence": {
+            "type": "string"
+          },
+          "fipsCode": {
+            "type": "string"
+          },
+          "propCensusTract": {
+            "type": "string"
+          },
+          "propZoning": {
+            "type": "string"
+          },
+          "locCode": {
+            "$ref": "#/components/schemas/LocCode"
+          },
+          "legalMapRef": {
+            "type": "string"
+          },
+          "legalAssessorDesc": {
+            "type": "string"
+          },
+          "legalFullDesc": {
+            "type": "string"
+          },
+          "legalLotCode": {
+            "type": "string"
+          },
+          "legalLotNumber": {
+            "type": "string"
+          },
+          "legalLandLot": {
+            "type": "string"
+          },
+          "legalTractNumber": {
+            "type": "string"
+          },
+          "legalBlock": {
+            "type": "string"
+          },
+          "legalSection": {
+            "type": "string"
+          },
+          "legalDistrict": {
+            "type": "string"
+          },
+          "legalUnitNumber": {
+            "type": "string"
+          },
+          "legalPhaseNumber": {
+            "type": "string"
+          },
+          "legalSubName": {
+            "type": "string"
+          },
+          "legalTownMuniName": {
+            "type": "string"
+          },
+          "legalSectionTownshipRange": {
+            "type": "string"
+          },
+          "propAcres": {
+            "type": "string"
+          },
+          "propFrontFootage": {
+            "type": "string"
+          },
+          "propDepthFootage": {
+            "type": "string"
+          },
+          "buildgView": {
+            "$ref": "#/components/schemas/BuildgView"
+          },
+          "propSiteInfluene": {
+            "$ref": "#/components/schemas/PropSiteInfluene"
+          },
+          "buildgName": {
+            "type": "string"
+          },
+          "buildgQuality": {
+            "$ref": "#/components/schemas/BuildgQuality"
+          },
+          "buildgImproveType": {
+            "$ref": "#/components/schemas/BuildgImproveType"
+          },
+          "grossSqft": {
+            "type": "string"
+          },
+          "adjGrossSqft": {
+            "type": "string"
+          },
+          "buildgClass": {
+            "$ref": "#/components/schemas/BuildgClass"
+          },
+          "interiorWall": {
+            "$ref": "#/components/schemas/InteriorWall"
+          },
+          "floorType": {
+            "$ref": "#/components/schemas/FloorType"
+          },
+          "rooms": {
+            "type": "string"
+          },
+          "otherRooms": {
+            "$ref": "#/components/schemas/OtherRooms"
+          },
+          "plumbingFixtures": {
+            "type": "string"
+          },
+          "parkingCapacity": {
+            "type": "string"
+          },
+          "energyType": {
+            "$ref": "#/components/schemas/EnergyType"
+          },
+          "fuelType": {
+            "$ref": "#/components/schemas/FuelType"
+          },
+          "sewerType": {
+            "type": "string"
+          },
+          "waterType": {
+            "type": "string"
+          },
+          "amenities": {
+            "$ref": "#/components/schemas/Amenities"
+          },
+          "extraFeatureSqft": {
+            "type": "array",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/ExtraFeatureSqft"
+            }
+          },
+          "buildgImprovArea": {
+            "type": "array",
+            "xml": {
+              "wrapped": true
+            },
+            "items": {
+              "$ref": "#/components/schemas/BuildgImprovArea"
+            }
+          },
+          "taxAccountNumber": {
+            "type": "string"
+          },
+          "taxTapeCutDate": {
+            "type": "string"
+          },
+          "taxDocType": {
+            "$ref": "#/components/schemas/TaxDocType"
+          },
+          "taxSalesPrice": {
+            "type": "string"
+          },
+          "taxSalesPriceCode": {
+            "$ref": "#/components/schemas/TaxSalesPriceCode"
+          },
+          "recBookNumber": {
+            "type": "string"
+          },
+          "recPageNumber": {
+            "type": "string"
+          },
+          "recDocNumber": {
+            "type": "string"
+          },
+          "taxYear": {
+            "type": "string"
+          },
+          "taxDelYear": {
+            "type": "string"
+          },
+          "assessedYear": {
+            "type": "string"
+          },
+          "assessedLandValue": {
+            "type": "string"
+          },
+          "marketValueYear": {
+            "type": "string"
+          },
+          "marketValueLand": {
+            "type": "string"
+          },
+          "appraisedValueLand": {
+            "type": "string"
+          },
+          "taxRateCode": {
+            "type": "string"
+          }
+        }
+      },
+      "PropertyGeometry": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        }
+      },
+      "PropertyInfoResponse": {
+        "type": "object",
+        "properties": {
+          "objectId": {
+            "type": "string"
+          },
+          "propertyAttributes": {
+            "$ref": "#/components/schemas/PropertyAttributes"
+          },
+          "matchedAddress": {
+            "$ref": "#/components/schemas/MatchedAddress"
+          }
+        },
+        "xml": {
+          "name": "propertyInfoResponse"
+        }
+      },
+      "PropertyInfoResponses": {
+        "type": "object",
+        "properties": {
+          "propertyInfoResponses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyInfoResponse"
+            }
+          }
+        },
+        "xml": {
+          "name": "propertyInfoResponses"
+        }
+      },
+      "RoofCoverType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "RoofFrameType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "RoofShapeType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "SitusAddress": {
+        "type": "object",
+        "properties": {
+          "mainAddressLine": {
+            "type": "string"
+          },
+          "addressNumber": {
+            "type": "string"
+          },
+          "streetPreDirection": {
+            "type": "string"
+          },
+          "streetName": {
+            "type": "string"
+          },
+          "streetType": {
+            "type": "string"
+          },
+          "streetPostDirection": {
+            "type": "string"
+          },
+          "unitType": {
+            "type": "string"
+          },
+          "unitValue": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "postCode1": {
+            "type": "string"
+          },
+          "postCode2": {
+            "type": "string"
+          }
+        }
+      },
+      "Stories": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          }
+        }
+      },
+      "TaxDocType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "TaxExemption": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "TaxSalesPriceCode": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "Vacancy": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "xml": {
+              "attribute": true
+            }
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorCode": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "string"
+          },
+          "errorDescription": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorInfo": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array",
+            "xml": {
+              "name": "error"
+            },
+            "items": {
+              "$ref": "#/components/schemas/ErrorCode"
+            }
+          }
+        },
+        "xml": {
+          "name": "errors"
+        }
+      },
+      "PropertyInfoAddressRequest": {
+        "required": [
+          "addresses",
+          "preferences"
+        ],
+        "type": "object",
+        "properties": {
+          "preferences": {
+            "$ref": "#/components/schemas/PropertyInfoPreferences"
+          },
+          "addresses": {
+            "type": "array",
+            "xml": {
+              "name": "address"
+            },
+            "items": {
+              "$ref": "#/components/schemas/MatchedAddress"
+            }
+          }
+        },
+        "xml": {
+          "name": "propertyAttributesAddressRequestV2"
+        }
+      },
+      "PropertyInfoPreferences": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "oAuth2Password": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://api.precisely.com/oauth/token",
+            "scopes": {
+              "bearer token": "put your bearer token here."
+            }
+          }
+        }
+      }
+    }
+  }
+}
